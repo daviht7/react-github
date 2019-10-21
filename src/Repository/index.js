@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import api from "../services/api";
 import PropTypes from "prop-types";
-import { Loading, Owner } from "./styles";
+import { Loading, Owner, IssueList,NoIssue } from "./styles";
 import Container from "../components/Container";
 import { Link } from "react-router-dom";
 
@@ -39,9 +39,32 @@ export default class Repository extends Component {
       issues: issues.data,
       loading: false
     });
+  }
 
-    console.log(repository);
-    console.log(issues);
+  listOrNot() {
+    const { issues } = this.state;
+    console.log("issue" + issues);
+
+    if (issues == "") return <NoIssue>Não possui Issue</NoIssue>;
+
+    return (
+      <IssueList>
+        {issues.map(issue => (
+          <li key={String(issue.id)}>
+            <img src={issue.user.avatar_url} alt={issue.user.login} />
+            <div>
+              <strong>
+                <a href={issue.html_url}>{issue.title}</a>
+                {issue.labels.map(label => (
+                  <span key={String(label.id)}>{label.name}</span>
+                ))}
+              </strong>
+              <p>{issue.user.login}</p>
+            </div>
+          </li>
+        ))}
+      </IssueList>
+    );
   }
 
   render() {
@@ -59,6 +82,7 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
+        {this.listOrNot()}
       </Container>
     );
   }

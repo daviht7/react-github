@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import api from "../services/api";
 import PropTypes from "prop-types";
+import { Loading, Owner } from "./styles";
+import Container from "../components/Container";
+import { Link } from "react-router-dom";
 
 export default class Repository extends Component {
   static propTypes = {
     match: PropTypes.shape({
-      params : PropTypes.shape({
-        repository : PropTypes.string
+      params: PropTypes.shape({
+        repository: PropTypes.string
       })
     }).isRequired
   };
@@ -42,6 +45,21 @@ export default class Repository extends Component {
   }
 
   render() {
-    return <h1></h1>;
+    const { loading, repository } = this.state;
+
+    if (loading) {
+      return <Loading>Carregando</Loading>;
+    }
+
+    return (
+      <Container>
+        <Owner>
+          <Link to="/">Voltar aos repositórios</Link>
+          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
+        </Owner>
+      </Container>
+    );
   }
 }

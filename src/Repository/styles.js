@@ -42,48 +42,48 @@ export const Owner = styled.header`
   }
 `;
 
+export const NoIssue = styled.span`
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  color: red;
+`;
+
 export const IssueList = styled.ul`
-  padding-top: 30px;
+  padding-top: 15px;
   margin-top: 30px;
   border-top: 1px solid #eee;
   list-style: none;
-
   li {
     display: flex;
     padding: 15px 10px;
     border: 1px solid #eee;
     border-radius: 4px;
-
     & + li {
       margin-top: 10px;
     }
-
     img {
       width: 36px;
       height: 36px;
       border-radius: 50%;
       border: 2px solid #eee;
     }
-
     div {
       flex: 1;
       margin-left: 15px;
-
       strong {
         font-size: 16px;
-
         a {
           text-decoration: none;
           color: #333;
-
           &:hover {
             color: #7159c1;
           }
         }
-
         span {
           background: #eee;
-          color: #eee;
+          color: #333;
           border-radius: 2px;
           font-size: 12px;
           font-weight: 600;
@@ -101,10 +101,38 @@ export const IssueList = styled.ul`
   }
 `;
 
-export const NoIssue = styled.span`
-  font-size: 20px;
+export const IssueFilter = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-  color: red;
+  padding-bottom: 15px;
+  button {
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    padding: 8px;
+    margin: 0 0.25rem;
+    &:nth-child(${props => props.active + 1}) {
+      background: #576574;
+      color: white;
+    }
+  }
+`;
+
+export const PageActions = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  button {
+    transition: opacity 0.25s ease-out;
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    padding: 8px;
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
 `;

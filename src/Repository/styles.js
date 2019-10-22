@@ -106,4 +106,5 @@ export const NoIssue = styled.span`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  color: red;
 `;

@@ -10,7 +10,8 @@ export default class Main extends Component {
   state = {
     newRepo: "",
     repositories: [],
-    loading: false
+    loading: false,
+    error: null
   };
 
   handleInputChange = e => {
@@ -38,8 +39,13 @@ export default class Main extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true,error: false });
+    try {
     const { newRepo, repositories } = this.state;
+
+    const hasRepo = repositories.find(r => r.name === newRepo);
+
+      if (hasRepo) throw 'Repositório duplicado';
 
     const response = await api.get(`/repos/${newRepo}`);
 
@@ -50,14 +56,17 @@ export default class Main extends Component {
     this.setState({
       repositories: [...repositories, data],
       newRepo: "",
-      loading: false
     });
-
-    console.log(this.state.repositories);
+    
+  } catch (error) {
+    this.setState({ error: true });
+  } finally {
+    this.setState({ loading: false });
+  }
   };
 
   render() {
-    const { newRepo, loading, repositories } = this.state;
+    const { newRepo, loading, repositories,error  } = this.state;
 
     return (
       <Container>
@@ -66,7 +75,7 @@ export default class Main extends Component {
           Repositórios
         </h1>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} error={error}>
           <input
             value={newRepo}
             onChange={this.handleInputChange}
